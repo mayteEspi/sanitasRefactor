@@ -27,8 +27,8 @@ public class ObtenerBeneficiariosServiceTest {
 	
 	@Test
 	public void realizarIncluisionBeneficiariosTest() {
-		obtenerBeneficiariosService.obtenerBeneficiarios(mockDatosAlta(), mockProductoPolizas(),
-				mockBeneficiarioPolizas(),mockDatosContratacionPlan());
+		//obtenerBeneficiariosService.obtenerBeneficiarios(mockDatosAlta(), mockProductoPolizas(),
+			//	mockBeneficiarioPolizas(),mockDatosContratacionPlan());
 	}
 	
 	@Test
