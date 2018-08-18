@@ -24,3 +24,5 @@ Pasos para ejecutar proyecto
 9. Yo he metido lombok, es increiblemente bueno para crear builder y para no tener que crear los getter y setter, además podriamos meter los logs usando la anotación de lombok @Slf4j
 
 10. He actualizado la version de jacobo ya que daba problemas la incluida en el pom
+
+11. Añadiría mas test de los service realizados como veís no hay cobertura 100%, no he tenido tiempo suficiente
