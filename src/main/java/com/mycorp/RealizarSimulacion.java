@@ -24,7 +24,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.collections4.IterableUtils;
 import org.apache.commons.collections4.Predicate;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycorp.service.BeneficiariosService;
-import com.mycorp.service.BeneficiariosServiceImpl;
+import com.mycorp.service.InfoContratacionService;
 import com.mycorp.soporte.BeneficiarioPolizas;
 import com.mycorp.soporte.DatosAltaAsegurados;
 import com.mycorp.soporte.DatosAseguradoInclusion;
@@ -48,15 +47,11 @@ import com.mycorp.soporte.StaticVarsContratacion;
 import com.mycorp.soporte.TarificacionPoliza;
 import com.mycorp.soporte.TipoPromocionEnum;
 
-import es.sanitas.bravo.ws.stubs.contratacionws.consultasoperaciones.DatosCobertura;
 import es.sanitas.bravo.ws.stubs.contratacionws.consultasoperaciones.DatosContratacionPlan;
 import es.sanitas.bravo.ws.stubs.contratacionws.consultasoperaciones.DatosPlanProducto;
 import es.sanitas.bravo.ws.stubs.contratacionws.documentacion.Primas;
-import es.sanitas.seg.simulacionpoliza.services.api.simulacion.vo.Cobertura;
-import es.sanitas.seg.simulacionpoliza.services.api.simulacion.vo.InfoContratacion;
 import es.sanitas.seg.simulacionpoliza.services.api.simulacion.vo.InfoPromociones;
 import es.sanitas.seg.simulacionpoliza.services.api.simulacion.vo.InfoTier;
-import es.sanitas.seg.simulacionpoliza.services.api.simulacion.vo.Producto;
 import es.sanitas.seg.simulacionpoliza.services.api.simulacion.vo.Promocion;
 import es.sanitas.seg.simulacionpoliza.services.api.simulacion.vo.ReciboProducto;
 import es.sanitas.seg.simulacionpoliza.services.api.simulacion.vo.Simulacion;
@@ -65,11 +60,8 @@ import es.sanitas.seg.simulacionpoliza.services.api.simulacion.vo.TarifaDesglosa
 import es.sanitas.seg.simulacionpoliza.services.api.simulacion.vo.TarifaProducto;
 import es.sanitas.seg.simulacionpoliza.services.api.simulacion.vo.Tarificacion;
 import es.sanitas.seg.simulacionpoliza.services.api.simulacion.vo.TierProducto;
-import wscontratacion.beneficiario.vo.ProductoCobertura;
 import wscontratacion.contratacion.fuentes.parametros.DatosAlta;
 import wscontratacion.contratacion.fuentes.parametros.DatosAsegurado;
-import wscontratacion.contratacion.fuentes.parametros.DatosDomicilio;
-import wscontratacion.contratacion.fuentes.parametros.DatosProductoAlta;
 
 public class RealizarSimulacion {
 
@@ -89,6 +81,8 @@ public class RealizarSimulacion {
 
 	@Autowired
 	private BeneficiariosService obtenerBeneficiariosService;
+	@Autowired
+	private InfoContratacionService infoContratacionService;
 
 	/**
 	 * Método que realiza las llamadas a las diferentes clases de simulación, para
@@ -346,7 +340,7 @@ public class RealizarSimulacion {
 		in.setListaBeneficiarios(
 				obtenerBeneficiariosService.obtenerBeneficiarios(oDatosAlta, lProductos, lBeneficiarios, oDatosPlan));
 		in.setInfoContratacion(
-				obtenerInfoContratacion(oDatosAlta, lBeneficiarios, lProductos, frecuencia, in.getOperacion()));
+				infoContratacionService.obtenerInfoContratacion(oDatosAlta, lBeneficiarios, lProductos, frecuencia, in.getOperacion()));
 
 		final RESTResponse<Tarificacion, es.sanitas.seg.simulacionpoliza.services.api.simulacion.vo.Error> response = servicioSimulacion
 				.simular(in);
@@ -437,56 +431,7 @@ public class RealizarSimulacion {
 		return infoTier;
 	}
 
-	protected InfoContratacion obtenerInfoContratacion(final DatosAlta oDatosAlta,
-			final List<BeneficiarioPolizas> lBeneficiarios, final List<ProductoPolizas> lProductos,
-			final FrecuenciaEnum frecuencia, final Integer tipoOperacion) {
-		final InfoContratacion infoContratacion = new InfoContratacion();
-
-		infoContratacion.setCodigoPostal(
-				String.format("%05d", ((DatosDomicilio) oDatosAlta.getDomicilios().get(0)).getCodPostal()));
-		infoContratacion.setFechaEfecto(oDatosAlta.getFAlta());
-		infoContratacion.setFrecuenciaPago(frecuencia.getValor());
-
-		final Long idPoliza = oDatosAlta.getIdPoliza();
-		// Si disponemos de la póliza se trata de una inclusión (productos o
-		// beneficiarios)
-		// o un alta en un póliza colectiva
-		if (idPoliza != null && idPoliza != 0L) {
-
-			final DatosAltaAsegurados oDatosAltaAsegurados = (DatosAltaAsegurados) oDatosAlta;
-
-			// El número de póliza debe indicarse para inclusiones de beneficiarios
-			// y todas las operaciones (altas/inclusiones de productos) de pólizas
-			// colectivas
-			// No debe indicarse para inclusiones de productos particulares
-			if (StaticVarsContratacion.INCLUSION_BENEFICIARIO == tipoOperacion.intValue()
-					|| oDatosAltaAsegurados.getIdColectivo() > 0
-					|| (oDatosAlta.getIdDepartamento() >= 0 && oDatosAlta.getIdEmpresa() != null)) {
-				infoContratacion.setIdPoliza(idPoliza.intValue());
-			}
-			// El número de colectivo se debe incluir en inclusiones de beneficiarios
-			if (StaticVarsContratacion.INCLUSION_BENEFICIARIO == tipoOperacion.intValue()) {
-				infoContratacion.setIdColectivo(oDatosAltaAsegurados.getIdColectivo());
-			}
-			// El número de departamento debe incluirse en operaciones con pólizas
-			// colectivas
-			if (oDatosAlta.getIdDepartamento() >= 0) {
-				infoContratacion.setIdDepartamento(oDatosAlta.getIdDepartamento());
-			}
-
-			// El número de empresa debe incluise en operaciones con pólizas colectivas
-			if (oDatosAlta.getIdEmpresa() != null) {
-				infoContratacion.setIdEmpresa(oDatosAlta.getIdEmpresa().intValue());
-			}
-		}
-		if (oDatosAlta.getIdMediador() != null) {
-			infoContratacion.setIdMediador(oDatosAlta.getIdMediador().intValue());
-		}
-		infoContratacion.setIdPlan(oDatosAlta.getIdPlan());
-
-		return infoContratacion;
-	}
-
+	
 	/**
 	 * Comprueba si alguna de las promociones aplicadas en la simulación es un
 	 * descuento en la prima.
