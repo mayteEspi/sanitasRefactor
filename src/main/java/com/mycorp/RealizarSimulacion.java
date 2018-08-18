@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mycorp.dto.RealizarSimulacionDto;
 import com.mycorp.service.BeneficiariosService;
 import com.mycorp.service.InfoContratacionService;
 import com.mycorp.soporte.BeneficiarioPolizas;
@@ -96,6 +97,12 @@ public class RealizarSimulacion {
 	 * @throws Exception             Excepción lanzada en caso de que haya errores
 	 * @throws ExcepcionContratacion Excepción controlada
 	 */
+	
+	public Map<String, Object> realizarSimulacion(RealizarSimulacionDto realizarSimulacionDto) throws ExcepcionContratacion, Exception{
+		return realizarSimulacion(realizarSimulacionDto.getODatosAlta(), realizarSimulacionDto.getLProductos(),
+				realizarSimulacionDto.getLBeneficiarios(), realizarSimulacionDto.isDesglosar(), realizarSimulacionDto.getHmValores());
+	}
+	
 	public Map<String, Object> realizarSimulacion(final DatosAlta oDatosAlta, final List<ProductoPolizas> lProductos,
 			final List<BeneficiarioPolizas> lBeneficiarios, final boolean desglosar,
 			final Map<String, Object> hmValores) throws Exception, ExcepcionContratacion {
