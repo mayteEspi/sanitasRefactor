@@ -10,3 +10,4 @@ Pasos para ejecutar proyecto
     <version>2.6</version>
 </dependency>
 
+4. Se puede ver que he sobrecargado e metodo princial de realizar simulacion, esto sería un refactor que haría, pero como no conozco los posibles proyectos que llamarían a realizarSimulacion por ello lo sobrecargo, con la idea de ir haciendo un refactor poco a poco.
