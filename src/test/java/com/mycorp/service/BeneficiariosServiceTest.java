@@ -14,7 +14,6 @@ import org.mockito.Mockito;
 import com.mycorp.soporte.BeneficiarioPolizas;
 import com.mycorp.soporte.ProductoPolizas;
 
-import es.sanitas.bravo.ws.stubs.contratacionws.consultamediadores.DatosPersonales;
 import es.sanitas.bravo.ws.stubs.contratacionws.consultasoperaciones.DatosCobertura;
 import es.sanitas.bravo.ws.stubs.contratacionws.consultasoperaciones.DatosContratacionPlan;
 import es.sanitas.bravo.ws.stubs.contratacionws.consultasoperaciones.DatosPlanProducto;
