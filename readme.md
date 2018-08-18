@@ -26,3 +26,5 @@ Pasos para ejecutar proyecto
 10. He actualizado la version de jacobo ya que daba problemas la incluida en el pom
 
 11. Añadiría mas test de los service realizados como veís no hay cobertura 100%, no he tenido tiempo suficiente
+
+12. Realizaría paquetería por funcionalidad y siguiendo el patrón de Single Responsability las clases creadas tendrían solo una exclusiva funcionalidad, es decir que creaía una clase en cada paquetería por funcionalidad (beneficiarios, contratacion. ..) para que todo este mas desacoplado.
