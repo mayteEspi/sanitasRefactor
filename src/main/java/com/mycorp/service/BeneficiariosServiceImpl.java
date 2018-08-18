@@ -24,13 +24,12 @@ import wscontratacion.contratacion.fuentes.parametros.DatosAlta;
 import wscontratacion.contratacion.fuentes.parametros.DatosProductoAlta;
 
 @Service
-public class ObtenerBeneficiariosServiceImpl implements ObtenerBeneficiariosService{
+public class BeneficiariosServiceImpl implements BeneficiariosService {
 
 	private static final String DATE_FORMAT = "dd/MM/yyyy";
 
 	@Override
-	public  Beneficiario[] obtenerBeneficiarios(
-			final DatosAlta oDatosAlta, final List<ProductoPolizas> lProductos,
+	public Beneficiario[] obtenerBeneficiarios(final DatosAlta oDatosAlta, final List<ProductoPolizas> lProductos,
 			final List<BeneficiarioPolizas> lBeneficiarios, final DatosContratacionPlan oDatosPlan) {
 		final List<Beneficiario> beneficiarios = new ArrayList<>();
 
@@ -219,17 +218,17 @@ public class ObtenerBeneficiariosServiceImpl implements ObtenerBeneficiariosServ
 
 		return coberturas.toArray(new Cobertura[0]);
 	}
-	
-	private Producto[] obtenerProductos( final List< ProductoCobertura > productosCobertura,
-            final DatosContratacionPlan oDatosPlan ) {
-        final List< Producto > productos = new ArrayList< >();
-        if( productosCobertura != null && !productosCobertura.isEmpty() ) {
-            for( final ProductoCobertura producto : productosCobertura ) {
-                productos.add( obtenerProducto( producto, oDatosPlan ) );
-            }
-        }
 
-        return productos.toArray( new Producto[ 0 ] );
-    }
+	private Producto[] obtenerProductos(final List<ProductoCobertura> productosCobertura,
+			final DatosContratacionPlan oDatosPlan) {
+		final List<Producto> productos = new ArrayList<>();
+		if (productosCobertura != null && !productosCobertura.isEmpty()) {
+			for (final ProductoCobertura producto : productosCobertura) {
+				productos.add(obtenerProducto(producto, oDatosPlan));
+			}
+		}
+
+		return productos.toArray(new Producto[0]);
+	}
 
 }

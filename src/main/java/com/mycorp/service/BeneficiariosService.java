@@ -9,7 +9,7 @@ import es.sanitas.bravo.ws.stubs.contratacionws.consultasoperaciones.DatosContra
 import es.sanitas.seg.simulacionpoliza.services.api.simulacion.vo.Beneficiario;
 import wscontratacion.contratacion.fuentes.parametros.DatosAlta;
 
-public interface ObtenerBeneficiariosService {
+public interface BeneficiariosService {
 
 	public Beneficiario[] obtenerBeneficiarios(DatosAlta oDatosAlta, List<ProductoPolizas> lProductos,
 			List<BeneficiarioPolizas> lBeneficiarios, DatosContratacionPlan oDatosPlan);

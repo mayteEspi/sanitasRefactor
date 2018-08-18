@@ -24,40 +24,37 @@ import wscontratacion.contratacion.fuentes.parametros.DatosAsegurado;
 import wscontratacion.contratacion.fuentes.parametros.DatosPersona;
 import wscontratacion.contratacion.fuentes.parametros.DatosProductoAlta;
 
-public class ObtenerBeneficiariosServiceTest {
+public class BeneficiariosServiceTest {
 
-	
 	private static final int GEN_SEX = 2;
-
 	private static final String FECH_NACI_BENEFICIARIO = "31/03/1984";
-
 	private static final int ID_PRODUCTO = 1;
-	
-	private ObtenerBeneficiariosService obtenerBeneficiariosService;
-	
+
+	private BeneficiariosService obtenerBeneficiariosService;
+
 	@Before
 	public void init() {
-		obtenerBeneficiariosService = new ObtenerBeneficiariosServiceImpl();
+		obtenerBeneficiariosService = new BeneficiariosServiceImpl();
 	}
-	
+
 	@Test
 	public void realizarIncluisionBeneficiariosTest() {
-		 Beneficiario[] beneficiarios = obtenerBeneficiariosService.obtenerBeneficiarios(mockDatosAlta(), mockProductoPolizas(),
-				mockBeneficiarioPolizas(),mockDatosContratacionPlan());
-		 assertThat(beneficiarios).isNotNull();
-		 assertThat(beneficiarios[0].getFechaNacimiento()).isEqualTo(FECH_NACI_BENEFICIARIO);
+		Beneficiario[] beneficiarios = obtenerBeneficiariosService.obtenerBeneficiarios(mockDatosAlta(),
+				mockProductoPolizas(), mockBeneficiarioPolizas(), mockDatosContratacionPlan());
+		assertThat(beneficiarios).isNotNull();
+		assertThat(beneficiarios[0].getFechaNacimiento()).isEqualTo(FECH_NACI_BENEFICIARIO);
 	}
-	
+
 	@Test
 	public void realizarAltaBeneficiarioTest() {
-		 Beneficiario[] beneficiarios = obtenerBeneficiariosService.obtenerBeneficiarios(mockDatosAlta(), mockProductoPolizas(),
-					null,mockDatosContratacionPlan());
-		 assertThat(beneficiarios).isNotNull();
-		 assertThat(beneficiarios[0].getFechaNacimiento()).isEqualTo(FECH_NACI_BENEFICIARIO);
-		 assertThat(beneficiarios[0].getSexo()).isEqualTo(GEN_SEX);
+		Beneficiario[] beneficiarios = obtenerBeneficiariosService.obtenerBeneficiarios(mockDatosAlta(),
+				mockProductoPolizas(), null, mockDatosContratacionPlan());
+		assertThat(beneficiarios).isNotNull();
+		assertThat(beneficiarios[0].getFechaNacimiento()).isEqualTo(FECH_NACI_BENEFICIARIO);
+		assertThat(beneficiarios[0].getSexo()).isEqualTo(GEN_SEX);
 	}
-	
-	private DatosAlta mockDatosAlta(){
+
+	private DatosAlta mockDatosAlta() {
 		DatosAlta datosAlta = new DatosAlta();
 		DatosPersona datosPersonales = new DatosPersona();
 		datosPersonales.setFNacimiento(FECH_NACI_BENEFICIARIO);
@@ -68,18 +65,18 @@ public class ObtenerBeneficiariosServiceTest {
 		datosAlta.setTitular(datosAsegurado);
 		return datosAlta;
 	}
-	
+
 	private List<DatosProductoAlta> mockProductosPolizas() {
 		DatosProductoAlta datosProducto = new DatosProductoAlta();
 		datosProducto.setIdProducto(ID_PRODUCTO);
-		return  Arrays.asList(datosProducto);
+		return Arrays.asList(datosProducto);
 	}
-	
-	private List<ProductoPolizas> mockProductoPolizas(){
+
+	private List<ProductoPolizas> mockProductoPolizas() {
 		return Arrays.asList(new ProductoPolizas(), new ProductoPolizas());
 	}
-	
-	private List<BeneficiarioPolizas> mockBeneficiarioPolizas(){
+
+	private List<BeneficiarioPolizas> mockBeneficiarioPolizas() {
 		BeneficiarioPolizas beneficiariosPoliza = new BeneficiarioPolizas();
 		DatosPersona datosPersona = new DatosPersona();
 		datosPersona.setFNacimiento(FECH_NACI_BENEFICIARIO);
@@ -87,22 +84,21 @@ public class ObtenerBeneficiariosServiceTest {
 		beneficiariosPoliza.setDatosPersonales(datosPersona);
 		return Arrays.asList(beneficiariosPoliza);
 	}
-	
-	private DatosContratacionPlan mockDatosContratacionPlan(){
+
+	private DatosContratacionPlan mockDatosContratacionPlan() {
 		DatosContratacionPlan datosContratacionPlan = spy(new DatosContratacionPlan());
 		List<DatosPlanProducto> datosPlanProducto = new ArrayList<DatosPlanProducto>();
 		DatosPlanProducto datoPlanProducto = spy(new DatosPlanProducto());
-		datoPlanProducto.setIdProducto((long)ID_PRODUCTO);
+		datoPlanProducto.setIdProducto((long) ID_PRODUCTO);
 		datosPlanProducto.add(datoPlanProducto);
 		DatosCobertura datoCobertura = spy(new DatosCobertura());
 		datoCobertura.setCapitalMinimo(2);
 		datoCobertura.setSwObligatorio(true);
-		datoCobertura.setIdCobertura((long)2);
+		datoCobertura.setIdCobertura((long) 2);
 		DatosCobertura datosCobertura = spy(datoCobertura);
 		Mockito.when(datoPlanProducto.getCoberturas()).thenReturn(Arrays.asList(datosCobertura));
 		Mockito.when(datosContratacionPlan.getProductos()).thenReturn(datosPlanProducto);
 		return datosContratacionPlan;
 	}
-	
-		
+
 }
