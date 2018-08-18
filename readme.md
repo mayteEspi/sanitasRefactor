@@ -11,3 +11,13 @@ Pasos para ejecutar proyecto
 </dependency>
 
 4. Se puede ver que he sobrecargado e metodo princial de realizar simulacion, esto sería un refactor que haría, pero como no conozco los posibles proyectos que llamarían a realizarSimulacion por ello lo sobrecargo, con la idea de ir haciendo un refactor poco a poco.
+
+5. También el realizar simulación y si hubiera tenido tiempo habría sacado a un service la propia simulacion es decir el método simular.
+
+6. Quitaría todos los break, estoy en contra del uso del break para interrumpir un bucle... 
+
+7. Usaría java 8 no java 7 así podría usar Streams, CompletableFuture que vendría estupendamente para este caso. 
+
+8. Crearía una clase de constantes y pondría en ella todas esas constantes que hay 'a pelo'
+
+9. Yo he metido lombok, es increiblemente bueno para crear builder y para no tener que crear los getter y setter además podriamos meter los logs usando la anotación de lombok @Slf4j
