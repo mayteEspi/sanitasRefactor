@@ -1,20 +1,23 @@
 package com.mycorp;
 
+import org.junit.Before;
 import org.junit.Test;
 
-import junit.framework.TestCase;
+import com.mycorp.service.BeneficiariosServiceImpl;
 
-/**
- * Unit test for simple App.
- */
-public class RealizarSimulacionTest extends TestCase {
 
-	/**
-	 * Rigourous Test :-)
-	 */
+public class RealizarSimulacionTest {
+
+	private RealizarSimulacion realizarSimulacion;
+	
+	@Before
+	public void init() {
+		realizarSimulacion = new RealizarSimulacion();
+	}
+	
 	@Test
-	public void testApp() {
-		assertTrue(true);
+	public void testSimulacion() {
+		
 	}
 
 }
