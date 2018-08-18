@@ -28,3 +28,5 @@ Pasos para ejecutar proyecto
 11. Añadiría mas test de los service realizados como veís no hay cobertura 100%, no he tenido tiempo suficiente
 
 12. Realizaría paquetería por funcionalidad y siguiendo el patrón de Single Responsability las clases creadas tendrían solo una exclusiva funcionalidad, es decir que creaía una clase en cada paquetería por funcionalidad (beneficiarios, contratacion. ..) para que todo este mas desacoplado.
+
+13. Siguiendo lo anteriormente descrito refactorizaría si o si soporte(paquetería) por funcionalidad y tipo de clase desacoplaría las clases incluidas en esta paquetería
