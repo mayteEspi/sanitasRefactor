@@ -61,7 +61,7 @@ public class ObtenerBeneficiariosServiceImpl implements ObtenerBeneficiariosServ
 		} else {
 			// Si no hay lista de beneficiarios se trata de un alta
 			// Primero se procesa el titular
-			es.sanitas.seg.simulacionpoliza.services.api.simulacion.vo.Beneficiario beneficiario = new es.sanitas.seg.simulacionpoliza.services.api.simulacion.vo.Beneficiario();
+			Beneficiario beneficiario = new Beneficiario();
 
 			beneficiario.setFechaNacimiento(
 					cambiarFecha(oDatosAlta.getTitular().getDatosPersonales().getFNacimiento(), oDatosAlta.getFAlta()));
