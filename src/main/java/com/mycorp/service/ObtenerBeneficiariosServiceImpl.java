@@ -139,7 +139,7 @@ public class ObtenerBeneficiariosServiceImpl implements ObtenerBeneficiariosServ
 			}
 		}
 
-		return beneficiarios.toArray(new es.sanitas.seg.simulacionpoliza.services.api.simulacion.vo.Beneficiario[0]);
+		return beneficiarios.toArray(new Beneficiario[0]);
 	}
 
 	/**
@@ -176,7 +176,6 @@ public class ObtenerBeneficiariosServiceImpl implements ObtenerBeneficiariosServ
 				productos.add(obtenerProducto(producto, oDatosPlan));
 			}
 		}
-
 		return productos.toArray(new Producto[0]);
 	}
 
